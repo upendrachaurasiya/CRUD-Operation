@@ -1,0 +1,56 @@
+{% extends "enroll/base.html" %}
+
+{% block content %}
+    {% comment %} this is for taking data {% endcomment %}
+    <div class="row">
+        <div class="col-sm-4">
+            <h4 class="text-center alert alert-info">Add new Student</h4>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="Add" class="btn btn-success">
+            </form>
+        </div>
+        {% comment %} this is for showing data {% endcomment %}
+        <div class="col-sm-8">
+            <h4 class="text-center alert alert-info">Shows Student Informations</h4>
+            {% if stu %}
+            <h4>Table Data</h4>
+            <table class="table table-hover d-inline">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in stu %}
+                        <tr>
+                            <td>{{data.id}}</td>
+                            <td>{{data.name}}</td>
+                            <td>{{data.email}}</td>
+                            <td>{{data.password}}</td>
+                            <td>
+                                <a href="{% url 'updatedata' data.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{% url 'deletedata' data.id %}" method="post" class="d-inline"><!-- delete data code start-->
+                                    {% csrf_token %}
+                                    <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                                </form>
+                            </td><!-- Delete data code end-->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h4>NO Record Found</h4>
+            {% endif %}
+        </div>
+    </div>
+    
+   
+     
+    
+{% endblock content %}
